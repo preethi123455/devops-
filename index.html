@@ -1,111 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Simple E-Commerce</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>E-Commerce Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f5f5;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Segoe UI,Arial;
+}
+body{
+  margin:0;
+  background:#f4f6f9;
+}
 
-    header {
-      background: #222;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-    }
+/* ===== NAVBAR ===== */
+nav{
+  background:#1f2937;
+  color:white;
+  padding:12px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+nav h2{
+  margin:0;
+}
+nav input{
+  padding:8px;
+  width:260px;
+  border-radius:6px;
+  border:none;
+}
+.cart-btn{
+  background:#3b82f6;
+  padding:8px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
 
-    .container {
-      display: grid;
-      grid-template-columns: 3fr 1fr;
-      gap: 15px;
-      padding: 15px;
-    }
+/* ===== LAYOUT ===== */
+.container{
+  display:grid;
+  grid-template-columns:3fr 1fr;
+  gap:15px;
+  padding:20px;
+}
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-    }
+/* ===== PRODUCTS ===== */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  display:flex;
+  flex-direction:column;
+}
+.card img{
+  height:160px;
+  object-fit:contain;
+}
+.card h4{
+  margin:10px 0 5px;
+}
+.price{
+  color:green;
+  font-weight:bold;
+}
+.card button{
+  margin-top:auto;
+  padding:8px;
+  background:#10b981;
+  border:none;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
 
-    .card {
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-    }
+/* ===== CART ===== */
+.cart{
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:6px;
+}
+.cart-item button{
+  background:red;
+  color:white;
+  border:none;
+  padding:2px 6px;
+}
+.total{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:bold;
+}
+.place-btn{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  background:#2563eb;
+  border:none;
+  color:white;
+  border-radius:6px;
+  font-size:16px;
+}
 
-    .card img {
-      height: 150px;
-      object-fit: contain;
-    }
-
-    .card h4 {
-      margin: 10px 0 5px;
-      font-size: 16px;
-    }
-
-    .price {
-      font-weight: bold;
-      color: green;
-    }
-
-    .card button {
-      margin-top: auto;
-      padding: 8px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .card button:hover {
-      background: #0056b3;
-    }
-
-    .cart {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      height: fit-content;
-    }
-
-    .cart h3 {
-      margin-top: 0;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    .total {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.bill{
+  background:white;
+  padding:20px;
+  width:350px;
+  border-radius:10px;
+}
+.bill h3{
+  text-align:center;
+}
+.bill button{
+  margin-top:10px;
+  width:100%;
+  padding:8px;
+}
+@media(max-width:800px){
+  .container{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
+
 <body>
 
-<header>🛒 Simple E-Commerce Store</header>
+<nav>
+  <h2>🛒 ShopEasy</h2>
+  <input type="text" id="search" placeholder="Search products...">
+  <div class="cart-btn">Cart (<span id="count">0</span>)</div>
+</nav>
 
 <div class="container">
   <div class="products" id="products"></div>
@@ -113,63 +162,130 @@
   <div class="cart">
     <h3>Cart</h3>
     <div id="cartItems"></div>
-    <div class="total" id="totalPrice">Total: $0</div>
+    <div class="total" id="total">Total: $0</div>
+    <button class="place-btn" onclick="placeOrder()">Place Order</button>
+  </div>
+</div>
+
+<!-- BILL MODAL -->
+<div class="modal" id="modal">
+  <div class="bill">
+    <h3>Invoice</h3>
+    <div id="billItems"></div>
+    <hr>
+    <p id="billTotal"></p>
+    <button onclick="window.print()">Print Bill</button>
+    <button onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-  const productsDiv = document.getElementById("products");
-  const cartItemsDiv = document.getElementById("cartItems");
-  const totalPriceDiv = document.getElementById("totalPrice");
+let products=[];
+let cart=[];
 
-  let cart = [];
+const productsDiv=document.getElementById("products");
+const cartDiv=document.getElementById("cartItems");
+const totalDiv=document.getElementById("total");
+const countSpan=document.getElementById("count");
 
-  // Fetch products from DummyJSON
-  fetch("https://dummyjson.com/products")
-    .then(res => res.json())
-    .then(data => {
-      data.products.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "card";
+/* FETCH PRODUCTS */
+fetch("https://dummyjson.com/products")
+.then(res=>res.json())
+.then(data=>{
+  products=data.products;
+  displayProducts(products);
+});
 
-        card.innerHTML = `
-          <img src="${product.thumbnail}" />
-          <h4>${product.title}</h4>
-          <div class="price">$${product.price}</div>
-          <button>Add to Cart</button>
-        `;
+/* DISPLAY PRODUCTS */
+function displayProducts(list){
+  productsDiv.innerHTML="";
+  list.forEach(p=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <img src="${p.thumbnail}">
+      <h4>${p.title}</h4>
+      <div class="price">$${p.price}</div>
+      <button onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
+    `;
+    productsDiv.appendChild(div);
+  });
+}
 
-        card.querySelector("button").addEventListener("click", () => {
-          addToCart(product);
-        });
+/* SEARCH */
+document.getElementById("search").addEventListener("input",e=>{
+  const val=e.target.value.toLowerCase();
+  const filtered=products.filter(p=>p.title.toLowerCase().includes(val));
+  displayProducts(filtered);
+});
 
-        productsDiv.appendChild(card);
-      });
-    });
-
-  function addToCart(product) {
-    cart.push(product);
-    renderCart();
+/* ADD TO CART */
+function addToCart(p){
+  const found=cart.find(i=>i.id===p.id);
+  if(found){
+    found.qty++;
+  }else{
+    cart.push({...p,qty:1});
   }
+  renderCart();
+}
 
-  function renderCart() {
-    cartItemsDiv.innerHTML = "";
-    let total = 0;
+/* RENDER CART */
+function renderCart(){
+  cartDiv.innerHTML="";
+  let total=0;
+  cart.forEach((i,idx)=>{
+    total+=i.price*i.qty;
+    cartDiv.innerHTML+=`
+      <div class="cart-item">
+        ${i.title} x${i.qty}
+        <span>
+          $${i.price*i.qty}
+          <button onclick="removeItem(${idx})">x</button>
+        </span>
+      </div>
+    `;
+  });
+  totalDiv.innerText="Total: $"+total;
+  countSpan.innerText=cart.length;
+}
 
-    cart.forEach(item => {
-      total += item.price;
+/* REMOVE */
+function removeItem(i){
+  cart.splice(i,1);
+  renderCart();
+}
 
-      const div = document.createElement("div");
-      div.className = "cart-item";
-      div.innerHTML = `
-        <span>${item.title}</span>
-        <span>$${item.price}</span>
-      `;
-      cartItemsDiv.appendChild(div);
-    });
-
-    totalPriceDiv.innerText = "Total: $" + total;
+/* PLACE ORDER */
+function placeOrder(){
+  if(cart.length==0){
+    alert("Cart is empty");
+    return;
   }
+  const bill=document.getElementById("billItems");
+  let total=0;
+  bill.innerHTML="";
+  cart.forEach(i=>{
+    total+=i.price*i.qty;
+    bill.innerHTML+=`
+      <p>${i.title} x${i.qty} - $${i.price*i.qty}</p>
+    `;
+  });
+  const tax=(total*0.1).toFixed(2);
+  const grand=(total+parseFloat(tax)).toFixed(2);
+
+  document.getElementById("billTotal").innerHTML=
+    `Subtotal: $${total}<br>Tax(10%): $${tax}<br><b>Grand Total: $${grand}</b>`;
+
+  document.getElementById("modal").style.display="flex";
+  cart=[];
+  renderCart();
+}
+
+/* CLOSE MODAL */
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
 </script>
 
 </body>

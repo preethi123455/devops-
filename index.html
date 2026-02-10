@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple E-Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 15px;
+      padding: 15px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      height: 150px;
+      object-fit: contain;
+    }
+
+    .card h4 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: green;
+    }
+
+    .card button {
+      margin-top: auto;
+      padding: 8px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background: #0056b3;
+    }
+
+    .cart {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+
+    .cart h3 {
+      margin-top: 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>🛒 Simple E-Commerce Store</header>
+
+<div class="container">
+  <div class="products" id="products"></div>
+
+  <div class="cart">
+    <h3>Cart</h3>
+    <div id="cartItems"></div>
+    <div class="total" id="totalPrice">Total: $0</div>
+  </div>
+</div>
+
+<script>
+  const productsDiv = document.getElementById("products");
+  const cartItemsDiv = document.getElementById("cartItems");
+  const totalPriceDiv = document.getElementById("totalPrice");
+
+  let cart = [];
+
+  // Fetch products from DummyJSON
+  fetch("https://dummyjson.com/products")
+    .then(res => res.json())
+    .then(data => {
+      data.products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <img src="${product.thumbnail}" />
+          <h4>${product.title}</h4>
+          <div class="price">$${product.price}</div>
+          <button>Add to Cart</button>
+        `;
+
+        card.querySelector("button").addEventListener("click", () => {
+          addToCart(product);
+        });
+
+        productsDiv.appendChild(card);
+      });
+    });
+
+  function addToCart(product) {
+    cart.push(product);
+    renderCart();
+  }
+
+  function renderCart() {
+    cartItemsDiv.innerHTML = "";
+    let total = 0;
+
+    cart.forEach(item => {
+      total += item.price;
+
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = `
+        <span>${item.title}</span>
+        <span>$${item.price}</span>
+      `;
+      cartItemsDiv.appendChild(div);
+    });
+
+    totalPriceDiv.innerText = "Total: $" + total;
+  }
+</script>
+
+</body>
+</html>
